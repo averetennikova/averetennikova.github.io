@@ -11,10 +11,10 @@
     <script>
         // Получаем параметры из хэш-части URL
         const urlParams = new URLSearchParams(window.location.hash.substring(1)); 
-        const accessToken = urlParams.get('access_token'); // Извлекаем токен доступа, если он есть
-        
+        const accessToken = urlParams.get('access_token');
+
         if (accessToken) {
-            // Если токен получен, отправляем его в фоновый скрипт
+            // Если токен получен, отправляем его в background.js
             chrome.runtime.sendMessage({ action: 'getBirthday', token: accessToken }, (response) => {
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError);
@@ -27,6 +27,9 @@
         } else {
             // Обработка ошибок или перенаправление
             console.error('Access token not found');
+            // Возможно, стоит попробовать перенаправление на страницу авторизации
+            const authUrl = 'https://oauth.yandex.ru/authorize?client_id=a2ea8f043e914325905d0a882d9b5ff2&response_type=token&scope=login:birthday';
+            window.location.href = authUrl; // Перенаправление на страницу авторизации
         }
     </script>
 </body>
