@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение доступа</title>
+</head>
+<body>
+    <h1>Подтверждение доступа</h1>
+    <p>Пожалуйста, подтвердите доступ к вашим данным.</p>
+    <script>
+        // Здесь будет логика для обработки токена или кода авторизации после перенаправления
+        const urlParams = new URLSearchParams(window.location.hash.substring(1)); // Получаем параметры из хэш-части URL
+        
+        const accessToken = urlParams.get('access_token'); // Извлекаем токен доступа, если он есть
+        if (accessToken) {
+            // Если токен получен, отправляем его обратно в расширение
+            // Для этого можно использовать механизм обмена сообщениями
+            window.close(); // Закрываем окно после получения токена
+        } else {
+            // Обработка ошибок или перенаправление
+            console.error('Access token not found');
+        }
+    </script>
+</body>
+</html>
