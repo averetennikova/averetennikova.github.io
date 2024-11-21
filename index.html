@@ -9,14 +9,21 @@
     <h1>Подтверждение доступа</h1>
     <p>Пожалуйста, подтвердите доступ к вашим данным.</p>
     <script>
-        // Здесь будет логика для обработки токена или кода авторизации после перенаправления
-        const urlParams = new URLSearchParams(window.location.hash.substring(1)); // Получаем параметры из хэш-части URL
-        
+        // Получаем параметры из хэш-части URL
+        const urlParams = new URLSearchParams(window.location.hash.substring(1)); 
         const accessToken = urlParams.get('access_token'); // Извлекаем токен доступа, если он есть
+        
         if (accessToken) {
-            // Если токен получен, отправляем его обратно в расширение
-            // Для этого можно использовать механизм обмена сообщениями
-            window.close(); // Закрываем окно после получения токена
+            // Если токен получен, отправляем его в фоновый скрипт
+            chrome.runtime.sendMessage({ action: 'getBirthday', token: accessToken }, (response) => {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                } else {
+                    console.log('Ответ от background.js:', response.birthday);
+                }
+                // Закрыть окно после получения ответа
+                window.close();
+            });
         } else {
             // Обработка ошибок или перенаправление
             console.error('Access token not found');
