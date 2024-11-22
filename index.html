@@ -17,7 +17,7 @@
 
         if (accessToken) {
             // Если токен получен, отправляем его в background.js
-            chrome.runtime.sendMessage({ action: 'getBirthday', token: accessToken }, (response) => {
+            chrome.runtime.sendMessage({ action: 'tokenObtained', token: accessToken }, (response) => {
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError);
                 } else {
